@@ -1,0 +1,7 @@
+{
+  "expo": {
+    "name": "Emperor Luitpold Marvelous Pocket Tool",
+    "slug": "emperor-luitmobile",
+    "entryPoint": "./src/App.tsx"
+  }
+}
