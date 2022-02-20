@@ -9,62 +9,76 @@ import {
 } from "react-native";
 import RollHistory from "./RollHistory";
 
-const RandomTable = ({ items, randomFn, title }) => {
+const RandomTable = ({ table }) => {
   const [rolls, addRoll] = useState([]);
 
   const renderItem = ({ item }) => {
-    return <Row chance={item.chance} description={item.description} />;
+    return (
+      <Item
+        range={item.range}
+        name={item.name}
+        description={item.description}
+      />
+    );
   };
 
   const rollTable = () => {
-    const numberRolled = randomFn();
+    const numberRolled = table.roll();
     console.log("roll", numberRolled);
     addRoll((rolls) => [...rolls, numberRolled]);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <FlatList style={styles.table} data={items} renderItem={renderItem} />
-      <RollHistory rolls={rolls}></RollHistory>
+    <View style={styles.RandomTable}>
+      <Text style={styles.title}>{table.name}</Text>
+      <FlatList
+        style={styles.table}
+        data={table.rows}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index}
+      />
+
       <TouchableOpacity style={styles.roll} onPress={rollTable}>
         <Text style={styles.rollLabel}>Roll</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
-const Row = ({ chance, description }) => {
+//<RollHistory rolls={rolls}></RollHistory>;
+
+const Item = ({ range, name, description }) => {
+  const rangeLabel = range.join("-");
+  // console.log("name", name);
+
   return (
-    <View style={styles.item}>
-      <View style={styles.chance}>
-        <Text>{chance}</Text>
+    <View style={styles.row}>
+      <View style={styles.rowRange}>
+        <Text>{rangeLabel}</Text>
       </View>
-      <View style={styles.description}>
-        <Text>{description}</Text>
+      <View style={styles.rowName}>
+        <Text>{name}</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  RandomTable: {
     flex: 1,
     marginTop: 50,
-    borderWidth: 2,
     borderColor: "green"
   },
   table: {
     flex: 1,
     marginTop: 15,
-    borderColor: "purple"
+    borderColor: "yellow"
   },
   title: {
     textAlign: "center",
     fontSize: 30
   },
-  lastRoll: {},
-  item: {
+  row: {
     flexDirection: "row",
     flexWrap: "wrap",
     backgroundColor: "#f9c2ff",
@@ -73,12 +87,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     borderColor: "red"
   },
-  chance: {
-    width: "10%",
+  rowRange: {
+    width: "15%",
     borderColor: "blue"
   },
-  description: {
-    width: "90%",
+  rowName: {
+    width: "85%",
     borderColor: "blue"
   },
   roll: {
@@ -88,7 +102,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 40,
     borderRadius: 10,
-    border: 2,
     borderColor: "black",
     alignItems: "center",
     fontSize: 40

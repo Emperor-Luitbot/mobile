@@ -1,24 +1,24 @@
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, SafeAreaView, LogBox } from "react-native";
 import { registerRootComponent } from "expo";
 import RandomTable from "./components/RandomTable";
+import * as minormis from "./tables/minormis.json";
+import Table from "./models/table";
+
+LogBox.ignoreLogs(["Remote debugger"]);
 
 function App() {
-  console.log("App");
-  const items = [
-    { chance: 0, key: "key1", description: "You die" },
-    { chance: 1, key: "key2", description: "You live" }
-  ];
-  const randomFn = () => Math.round(Math.random(1));
-
+  const myFirstTable = new Table(minormis.name, minormis.rows, minormis.die);
+  //console.log("myFirstTable", myFirstTable);
   return (
-    <View style={styles.container}>
-      <RandomTable items={items} title={"Random Table 1"} randomFn={randomFn} />
-    </View>
+    <SafeAreaView style={styles.root}>
+      <RandomTable table={myFirstTable} />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     fontFamily: "Cochin",
     flex: 1,
     backgroundColor: "#fff",

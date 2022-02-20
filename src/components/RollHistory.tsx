@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LogBox, Text, FlatList, View, StyleSheet } from "react-native";
+import { Text, FlatList, View, StyleSheet } from "react-native";
 
 const Roll = (roll) => {
   return (
@@ -22,7 +22,10 @@ const RollHistory = ({ rolls }) => {
 };
 
 const styles = StyleSheet.create({
-  rollHistory: {},
+  rollHistory: {
+    borderColor: "green",
+    borderWidth: 2
+  },
   tableHistory: {},
   eachRoll: {}
 });
